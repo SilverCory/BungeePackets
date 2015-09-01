@@ -15,7 +15,7 @@ import org.spawl.bungeepackets.nbt.NBTReadLimiter;
 import org.spawl.bungeepackets.nbt.NBTTagCompound;
 import org.spawl.bungeepackets.nbt.NBTTagList;
 import org.spawl.bungeepackets.nbt.NBTTagString;
-import org.spawl.bungeepackets.util.MojangAPI;
+import org.spawl.bungeepackets.skin.GameProfile;
 
 public class ItemStack {
 
@@ -111,10 +111,28 @@ public class ItemStack {
 	
 	public ItemStack setOwner(UUID id) {
 		try {
-			MojangAPI.applySkinProfile(id.toString(), this.tag);
-			System.out.println("Successfully applied skin ("+id+")!");
+			GameProfile profile = new GameProfile(id, null);
+			if(profile.loadSkin()) {
+				NBTTagCompound compound = profile.serialize(new NBTTagCompound());
+				this.tag.set("SkullOwner", compound);
+			}else{
+				throw new Exception();
+			}
 		} catch (Exception e) {
-			System.out.println("Failed to grab skin ("+id+"): "+e.getMessage());
+		}
+		return this;
+	}
+	
+	public ItemStack setOwner(String name) {
+		try {
+			GameProfile profile = new GameProfile(null, name);
+			if(profile.loadSkin()) {
+				NBTTagCompound compound = profile.serialize(new NBTTagCompound());
+				this.tag.set("SkullOwner", compound);
+			}else{
+				throw new Exception("load skin fail");
+			}
+		} catch (Exception e) {
 		}
 		return this;
 	}
