@@ -1,7 +1,11 @@
 # BungeePackets
 An in depth packet library for BungeeCord. This library allows developers to create plugins that allow for inventories across server networks, play sounds, particle effects, and soon to be lots more!
 
-(# "Google's Homepage")
+### Table of Contents
+(https://github.com/Spawl/BungeePackets/blob/master/README.md#how-does-it-work "How does it work?")
+(https://github.com/Spawl/BungeePackets/blob/master/README.md#usage "How does it work?")
+(https://github.com/Spawl/BungeePackets/blob/master/README.md#inventories "How does it work?")
+(https://github.com/Spawl/BungeePackets/blob/master/README.md#customization "How does it work?")
 
 ## How does it work?
 Basically, every time a player connects to a server, a new server connection is made between the BungeeCord and the server. The packets then get piped to the player through this. BungeePackets simply adds a little filter in the pipe. This way we can detect any and all packets coming in and out of the Bungee.
