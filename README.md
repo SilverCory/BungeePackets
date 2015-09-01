@@ -3,8 +3,11 @@ An in depth packet library for BungeeCord. This library allows developers to cre
 
 ### Table of Contents
 [How does it work?](https://github.com/Spawl/BungeePackets/blob/master/README.md#how-does-it-work)
+
 [Usage](https://github.com/Spawl/BungeePackets/blob/master/README.md#usage)
+
 [Inventories](https://github.com/Spawl/BungeePackets/blob/master/README.md#inventories)
+
 [Customization](https://github.com/Spawl/BungeePackets/blob/master/README.md#customization)
 
 ## How does it work?
