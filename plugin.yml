@@ -1,0 +1,4 @@
+name: BungeePackets
+version: 0.1
+main: org.spawl.bungeepackets.BungeePackets
+author: Spawl
