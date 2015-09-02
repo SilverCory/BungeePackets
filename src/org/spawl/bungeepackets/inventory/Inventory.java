@@ -1,6 +1,8 @@
 package org.spawl.bungeepackets.inventory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import net.md_5.bungee.ServerConnection;
@@ -24,7 +26,7 @@ public class Inventory implements Listener {
 	private static HashMap<Integer, Inventory> inventories = new HashMap<Integer, Inventory>();
 	private static HashMap<UUID, PlayerInventory> playerInventories = new HashMap<UUID, PlayerInventory>();
 
-	private static int currentInventoryId = 60;
+	private static int currentInventoryId = 0;
 
 	public static Inventory getInventoryById(int id) {
 		if(inventories.containsKey(id))
@@ -116,12 +118,21 @@ public class Inventory implements Listener {
 		this.title = title;
 		this.slots = slots;
 		this.inventoryID = currentInventoryId;
+		
+		currentInventoryId += 1;
+		
+		if(currentInventoryId > 999)
+			currentInventoryId = 0;
 
 		inventories.put(inventoryID, this);
 	}
 
 	public int getInventoryId() {
 		return inventoryID;
+	}
+
+	public void setSlots(int i) {
+		this.slots = i;
 	}
 
 	public int getSlots() {
@@ -141,7 +152,7 @@ public class Inventory implements Listener {
 	public boolean setItem(int slot, ItemStack stack) {
 		return setItem(slot, stack, null);
 	}
-	
+
 	public boolean setItem(int slot, ItemStack stack, ClickHandler handler) {
 		map.put(slot, stack);
 
@@ -152,7 +163,7 @@ public class Inventory implements Listener {
 					updateSlot(p, slot);
 			}
 		}
-		
+
 		this.handler.put(slot, handler);
 		return true;
 	}
@@ -195,9 +206,22 @@ public class Inventory implements Listener {
 		return true;
 	}
 
+	public void destroy() {
+		List<UUID> remove = new ArrayList<UUID>();
+		for(UUID id : open.keySet()) {
+			int i = open.get(id);
+			if(i == inventoryID) {
+				remove.add(id);
+			}
+		}
+		for(UUID id : remove)
+			open.remove(id);
+		inventories.remove(inventoryID);
+	}
+
 	private void handleClick(ProxiedPlayer p, ItemStack stack, int slot, boolean shift, boolean leftClick) {
 		PlayerInventory pinv = getPlayerInventory(p.getUniqueId());
-		
+
 		for(int i = 0; i < slots; i++)
 			if(map.containsKey(i))
 			{
@@ -205,21 +229,21 @@ public class Inventory implements Listener {
 				slotPacket.windowID = inventoryID;
 				slotPacket.slot = i;
 				slotPacket.item = map.get(i);
-				
+
 				p.unsafe().sendPacket(slotPacket);
 			}else{
 				OutSetSlot slotPacket = new OutSetSlot();
 				slotPacket.windowID = inventoryID;
 				slotPacket.slot = i;
 				slotPacket.item = null;
-				
+
 				p.unsafe().sendPacket(slotPacket);
 			}
-		
+
 		OutWindowItems pWindow = new OutWindowItems();
 		pWindow.id = 0;
 		pWindow.items = pinv.getItems();
-		
+
 		p.unsafe().sendPacket(pWindow);
 
 		OutSetSlot nullifyPacket = new OutSetSlot();
@@ -227,7 +251,7 @@ public class Inventory implements Listener {
 		nullifyPacket.slot = -1;
 
 		p.unsafe().sendPacket(nullifyPacket);
-		
+
 		if(handler.containsKey(slot)) {
 			ClickHandler handle = handler.get(slot);
 			if(handle != null)
@@ -243,7 +267,7 @@ public class Inventory implements Listener {
 
 		p.unsafe().sendPacket(packet);
 	}
-	
+
 	public interface ClickHandler {
 		public void onClick(ProxiedPlayer p, int slot, ItemStack clicked, boolean rightClick, boolean shiftClick);
 	}

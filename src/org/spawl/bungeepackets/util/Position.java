@@ -5,6 +5,13 @@ public class Position {
 	private double x,y,z;
 	private float yaw,pitch;
 	
+	public Position(){}
+	public Position(double x, double y, double z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
 	public void setX(double x) {
 		this.x = x;
 	}
