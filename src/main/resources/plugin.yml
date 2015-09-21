@@ -1,0 +1,4 @@
+name: BungeePackets
+version: ${project.version}
+main: org.spawl.bungeepackets.BungeePackets
+author: Spawl
