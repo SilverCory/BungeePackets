@@ -1,0 +1,12 @@
+- This is mainly here for me, I'll make more PR's after this has been accepted declined to ensure compat.
+
+- For the ability of shading.
+        { Create an interface.
+        { Move extends `net.md_5.api.plugin.Plugin` to another one.
+        { Have BungeePackets implement the interface ect.
+
+- Because we might aswell whilst we're making this change.
+        { Move plugin.yml to bungee.yml; just because it's nicer imo.
+
+- IDK seems.. Messy?
+        { Use shading &/or Gson instead of SimpleJSON.
