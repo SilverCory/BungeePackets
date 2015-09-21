@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Same as your details for the plugin.. Package name, project name, and version. -->
+    <groupId>org.spawl.bungeepackets</groupId>
+    <artifactId>BungeePackets</artifactId>
+    <version>0.1</version>
+
+    <!-- Change the bungee version here instead of having to find everywhere else.. -->
+    <properties>
+        <bungee.version>1.8-SNAPSHOT</bungee.version>
+    </properties>
+
+    <build>
+
+        <!--
+            Clean the /target directory ( delete everything ).
+            After compile the project and install it to the local repository.
+        -->
+        <defaultGoal>clean install</defaultGoal>
+
+        <plugins>
+
+            <!--
+                Set up the Java Source version, the Java Compile Version and some other settings..
+            -->
+            <plugin>
+                <inherited>true</inherited>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <!-- If I ever use 1.8 I will change it! -->
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+        <!-- Scan the resources and replace ${} environment vars -->
+        <!-- Used for ${project.version} -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+    </build>
+
+    <repositories>
+
+        <!-- where to download some dependencies from -->
+        <repository>
+            <id>Ryred-SNAPSHOTS</id>
+            <url>http://mvn.ryred.co/repository/snapshots/</url>
+        </repository>
+
+    </repositories>
+
+    <!-- Dependencies of the project -->
+    <dependencies>
+
+        <!-- The BungeeCord API -->
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>${bungee.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- BungeeCord all gets shaded into this.. -->
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-bootstrap</artifactId>
+            <version>${bungee.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
